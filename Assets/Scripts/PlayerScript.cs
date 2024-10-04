@@ -29,7 +29,7 @@ public class PlayerScript : MonoBehaviour
         distance = Vector3.Distance(transform.position, enemyPos.position);
         if (distance <= rangeRadius )
         {
-            transform.transform.LookAt(enemyPos);
+            transform.transform.LookAt(enemyPos.transform);
         }
     }
 
