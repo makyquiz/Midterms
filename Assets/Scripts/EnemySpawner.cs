@@ -4,32 +4,42 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemy;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private float minimumSpawnTime = 5f;
+    [SerializeField] private float maximumSpawnTime = 10f;
 
-    [SerializeField] private float minimumSpawnTime = 5;
-    [SerializeField] private float maximumSpawnTime = 10;
+    // Array of colors for the enemies
+    private Color[] enemyColors = { Color.red, Color.green, Color.blue };
 
     private float timeUntilSpawn;
 
-    // Start is called before the first frame update
     void Awake()
     {
-        setTimeUntilSpawn();
+        SetTimeUntilSpawn();
     }
 
-    // Update is called once per frame
     void Update()
     {
         timeUntilSpawn -= Time.deltaTime;
 
-        if(timeUntilSpawn <= 0 )
+        if (timeUntilSpawn <= 0)
         {
-            Instantiate(enemy, transform.position, Quaternion.identity);
-            setTimeUntilSpawn();
+            SpawnEnemy();
+            SetTimeUntilSpawn();
         }
     }
 
-    void setTimeUntilSpawn()
+    private void SpawnEnemy()
+    {
+        GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+
+        Color randomColor = enemyColors[Random.Range(0, enemyColors.Length)];
+        enemy.GetComponent<Renderer>().material.color = randomColor; 
+
+        Debug.Log("Spawned Enemy Color: " + randomColor);
+    }
+
+    private void SetTimeUntilSpawn()
     {
         timeUntilSpawn = Random.Range(minimumSpawnTime, maximumSpawnTime);
     }

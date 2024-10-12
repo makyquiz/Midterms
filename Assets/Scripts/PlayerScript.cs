@@ -8,7 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     public GameObject bullet;
 
-    public Transform enemyPos;
+    [SerializeField] private Transform enemyPos;
     public Transform bulletSpawn;
 
     public LayerMask layer;
@@ -18,10 +18,9 @@ public class PlayerScript : MonoBehaviour
     public float raycastLength;
     public float bulletSpeed;
 
-    void Start()
+    private void Start()
     {
-        StartCoroutine(SpawnBullet());
-        enemyPos = GameObject.FindGameObjectWithTag("Enemy").transform;
+        //StartCoroutine(SpawnBullet());
     }
 
     void Update()
@@ -29,42 +28,21 @@ public class PlayerScript : MonoBehaviour
         distance = Vector3.Distance(transform.position, enemyPos.position);
         if (distance <= rangeRadius )
         {
-            transform.transform.LookAt(enemyPos.transform);
+            transform.LookAt(enemyPos);
         }
     }
 
-    private void FixedUpdate()
-    {
-        //RaycastHit hit;
-
-        //if(Physics.Raycast(transform.position, transform.forward, out hit, raycastLength, layer))
-        //{
-        //    Debug.Log("Enemy detected");
-        //}
-        //else
-        //{
-        //    Debug.Log("No enemy within radius!");
-        //}
-
-        
-    }
-
-    private void OnMouseDown()
-    {
-        
-    }
-
-    private IEnumerator SpawnBullet()
-    {
-        WaitForSeconds waitTime = new WaitForSeconds(10);
-        while (true)
-        {
-            GameObject _bullet = Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
-            Rigidbody rigidBody = _bullet.GetComponent<Rigidbody>();
-            rigidBody.velocity = transform.forward * bulletSpeed;
-            yield return waitTime;
-        }
-    }
+    //private IEnumerator SpawnBullet()
+    //{
+    //    WaitForSeconds waitTime = new WaitForSeconds(10);
+    //    while (true)
+    //    {
+    //        GameObject _bullet = Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
+    //        Rigidbody rigidBody = _bullet.GetComponent<Rigidbody>();
+    //        rigidBody.velocity = transform.forward * bulletSpeed;
+    //        yield return waitTime;
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {

@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float speed = 2f;
+    public float moveSpeed = 2f;
+    private Transform player;
 
-    // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        player = FindObjectOfType<PlayerScript>().transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        MoveTowardsPlayer();
+    }
+
+    void MoveTowardsPlayer()
+    {
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
     }
 }
